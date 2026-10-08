@@ -1,5 +1,7 @@
 import models.AdminUser;
+import models.HardwareProject;
 import models.RegularUser;
+import models.SoftwareProject;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,6 +23,13 @@ public class Main {
         System.out.println("ID: " + adminUser.getId());
         System.out.println("Name: " + adminUser.getName());
         System.out.println("Role: " + adminUser.getRole());
+
+        SoftwareProject softwareProject =  new SoftwareProject(1,"Smart House", "system ...",2000, 3);
+        HardwareProject hardwareProject =  new HardwareProject(2,"IoT", "system ...",3000, 2);
+
+        System.out.println(softwareProject.getProjectDetails());
+        System.out.println(hardwareProject.getProjectDetails());
+
 
     }
 }
