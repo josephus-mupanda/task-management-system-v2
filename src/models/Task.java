@@ -4,45 +4,37 @@ import interfaces.Completable;
 
 public class Task  implements Completable {
 
+    private static int nextId = 1;
+
     private int id;
-    private String title;
-    private String description;
-    private boolean completed;
+    private String name;
+    private String status;
 
-    private User assignedUser;
-
-    public Task(int id, String title, String description){
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.completed = false;
+    public Task(String name, String status) {
+        this.id = nextId++;
+        this.name = name;
+        this.status = status;
     }
 
-    public void assignTo( User user){
-        this.assignedUser = user;
-    }
-    public  User getAssignedUser(){
-        return assignedUser;
-    }
     @Override
-    public  void complete(){
-        completed = true;
+    public boolean isCompleted() {
+        return status.equalsIgnoreCase("Completed");
     }
 
     public int getId() {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getStatus() {
+        return status;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
 
