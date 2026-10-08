@@ -38,6 +38,9 @@ public class Main {
         System.out.println(
                 "Assigned to: " + task.getAssignedUser().getName()
         );
+
+        softwareProject.addTask(task);
+        System.out.println( "Project task: " + softwareProject.getTasks()[0].getTitle());
 //        System.out.println("Task: " + task.getTitle());
 //        System.out.println("Completed: " + task.isCompleted());
 //

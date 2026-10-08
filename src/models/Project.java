@@ -6,6 +6,7 @@ public abstract class Project {
     private String description;
     private double budget;
     private int teamSize;
+    private Task[] tasks;
 
     public Project(int id, String name, String description, double budget, int teamSize)
     {
@@ -14,6 +15,7 @@ public abstract class Project {
      this.description =  description;
      this.budget = budget;
      this.teamSize =  teamSize;
+     this.tasks = new Task[10];
     }
 
     public abstract String getProjectDetails();
@@ -35,5 +37,17 @@ public abstract class Project {
     }
     public int getTeamSize(){
         return teamSize;
+    }
+
+    public void addTask(Task task){
+        for( int i = 0; i<tasks.length; i++){
+            if(tasks[i] == null){
+                tasks[i] = task;
+                return;
+            }
+        }
+    }
+    public Task[] getTasks(){
+        return tasks;
     }
 }
