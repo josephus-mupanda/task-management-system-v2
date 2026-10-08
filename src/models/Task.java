@@ -9,6 +9,8 @@ public class Task  implements Completable {
     private String description;
     private boolean completed;
 
+    private User assignedUser;
+
     public Task(int id, String title, String description){
         this.id = id;
         this.title = title;
@@ -16,6 +18,12 @@ public class Task  implements Completable {
         this.completed = false;
     }
 
+    public void assignTo( User user){
+        this.assignedUser = user;
+    }
+    public  User getAssignedUser(){
+        return assignedUser;
+    }
     @Override
     public  void complete(){
         completed = true;

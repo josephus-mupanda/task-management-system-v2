@@ -33,12 +33,17 @@ public class Main {
                 "Set up the Java project"
         );
 
-        System.out.println("Task: " + task.getTitle());
-        System.out.println("Completed: " + task.isCompleted());
+        task.assignTo(regularUser);
 
-        task.complete();
-
-        System.out.println("Completed after complete(): " + task.isCompleted());
+        System.out.println(
+                "Assigned to: " + task.getAssignedUser().getName()
+        );
+//        System.out.println("Task: " + task.getTitle());
+//        System.out.println("Completed: " + task.isCompleted());
+//
+//        task.complete();
+//
+//        System.out.println("Completed after complete(): " + task.isCompleted());
 
     }
 }
