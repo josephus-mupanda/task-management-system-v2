@@ -1,7 +1,4 @@
-import models.AdminUser;
-import models.HardwareProject;
-import models.RegularUser;
-import models.SoftwareProject;
+import models.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,6 +27,18 @@ public class Main {
         System.out.println(softwareProject.getProjectDetails());
         System.out.println(hardwareProject.getProjectDetails());
 
+        Task task = new Task(
+                1,
+                "Create project structure",
+                "Set up the Java project"
+        );
+
+        System.out.println("Task: " + task.getTitle());
+        System.out.println("Completed: " + task.isCompleted());
+
+        task.complete();
+
+        System.out.println("Completed after complete(): " + task.isCompleted());
 
     }
 }
