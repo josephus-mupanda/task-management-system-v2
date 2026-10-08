@@ -80,8 +80,36 @@ public class Main {
                 case 1:
                     filterProjects(projects, scanner);
                     break;
+
                 case 2:
-                    System.out.println("Task management selected.");
+                    System.out.println("\n========== TASK MANAGEMENT ==========");
+                    System.out.println("1. Add Task");
+                    System.out.println("2. View Tasks");
+                    System.out.print("Choose an option: ");
+
+                    if (!scanner.hasNextInt()) {
+                        System.out.println("Invalid input.");
+                        scanner.nextLine();
+                        break;
+                    }
+
+                    int taskChoice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (taskChoice) {
+
+                        case 1:
+                            addTaskToProject(projects, scanner);
+                            break;
+
+                        case 2:
+                            displayTasks(projects, scanner);
+                            break;
+
+                        default:
+                            System.out.println("Invalid option.");
+                    }
+
                     break;
 
                 case 3:
@@ -194,6 +222,140 @@ public class Main {
                         project.getBudget()
                 );
             }
+        }
+    }
+
+    public static Project findProject(Project[] projects, int projectId) {
+
+        for (Project project : projects) {
+            if (project != null && project.getId() == projectId) {
+                return project;
+            }
+        }
+
+        return null;
+    }
+
+
+    public static void addTaskToProject(Project[] projects, Scanner scanner) {
+
+        System.out.print("Enter project ID: ");
+
+        if (!scanner.hasNextInt()) {
+            System.out.println("Invalid project ID.");
+            scanner.nextLine();
+            return;
+        }
+
+        int projectId = scanner.nextInt();
+        scanner.nextLine();
+
+        Project project = findProject(projects, projectId);
+
+        if (project == null) {
+            System.out.println("Project not found.");
+            return;
+        }
+
+        System.out.print("Enter task name: ");
+        String taskName = scanner.nextLine();
+
+        // Prevent duplicate task names
+        for (Task task : project.getTasks()) {
+            if (task != null &&
+                    task.getName().equalsIgnoreCase(taskName)) {
+
+                System.out.println("A task with this name already exists.");
+                return;
+            }
+        }
+
+        System.out.println("Choose initial status:");
+        System.out.println("1. Pending");
+        System.out.println("2. In Progress");
+        System.out.println("3. Completed");
+        System.out.print("Enter status: ");
+
+        if (!scanner.hasNextInt()) {
+            System.out.println("Invalid status.");
+            scanner.nextLine();
+            return;
+        }
+
+        int statusChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        String status;
+
+        switch (statusChoice) {
+            case 1:
+                status = "Pending";
+                break;
+            case 2:
+                status = "In Progress";
+                break;
+            case 3:
+                status = "Completed";
+                break;
+            default:
+                System.out.println("Invalid status.");
+                return;
+        }
+
+        Task task = new Task(taskName, status);
+
+        project.addTask(task);
+
+        System.out.println(
+                "Task \"" + taskName +
+                        "\" added successfully to Project " +
+                        project.getId()
+        );
+    }
+
+    public static void displayTasks(Project[] projects, Scanner scanner) {
+
+        System.out.print("Enter project ID: ");
+
+        if (!scanner.hasNextInt()) {
+            System.out.println("Invalid project ID.");
+            scanner.nextLine();
+            return;
+        }
+
+        int projectId = scanner.nextInt();
+        scanner.nextLine();
+
+        Project project = findProject(projects, projectId);
+
+        if (project == null) {
+            System.out.println("Project not found.");
+            return;
+        }
+
+        System.out.println("\n==============================================");
+        System.out.println("              PROJECT TASKS");
+        System.out.println("==============================================");
+        System.out.println("Project: " + project.getName());
+
+        boolean hasTasks = false;
+
+        for (Task task : project.getTasks()) {
+
+            if (task != null) {
+                hasTasks = true;
+
+                System.out.printf(
+                        "ID: %d | Name: %-25s | Status: %s%n",
+                        task.getId(),
+                        task.getName(),
+                        task.getStatus()
+                );
+            }
+        }
+
+        if (!hasTasks) {
+            System.out.println("No tasks found.");
         }
     }
 }
