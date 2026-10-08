@@ -41,6 +41,10 @@ public class Main {
 
         softwareProject.addTask(task);
         System.out.println( "Project task: " + softwareProject.getTasks()[0].getTitle());
+
+        System.out.println(
+                "Completion: " + softwareProject.getCompletionPercentage() + "%"
+        );
 //        System.out.println("Task: " + task.getTitle());
 //        System.out.println("Completed: " + task.isCompleted());
 //

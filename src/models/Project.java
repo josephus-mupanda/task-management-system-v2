@@ -50,4 +50,22 @@ public abstract class Project {
     public Task[] getTasks(){
         return tasks;
     }
+
+    public double getCompletionPercentage(){
+        int totalTasks = 0;
+        int completedTasks = 0;
+
+        for(Task task: tasks){
+            if( task != null){
+                totalTasks++;
+                if(task.isCompleted()){
+                    completedTasks++;
+                }
+            }
+        }
+        if(totalTasks ==0){
+            return 0.0;
+        }
+        return (double) completedTasks /totalTasks *100;
+    }
 }
