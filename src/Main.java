@@ -52,27 +52,53 @@ public class Main {
         boolean running  = true;
 
         while(running){
-            System.out.println("\n === Task Management System ===");
-            System.out.println("1. View Projects");
-            System.out.println("2. View Tasks");
-            System.out.println("3. Exit");
 
-            int choice =  scanner.nextInt();
+            System.out.println("\n==============================================");
+            System.out.println("       JAVA PROJECT MANAGEMENT SYSTEM");
+            System.out.println("==============================================");
+
+            System.out.println("1. Manage Projects");
+            System.out.println("2. Manage Tasks");
+            System.out.println("3. View Status Reports");
+            System.out.println("4. Switch User");
+            System.out.println("5. Exit");
+
+            System.out.print("Enter your choice: ");
+
+            int choice;
+
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                scanner.nextLine();
+            } else {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine();
+                continue;
+            }
 
             switch (choice){
                 case 1:
-                    displayProjects(projects);
+                    filterProjects(projects, scanner);
                     break;
                 case 2:
-                    System.out.println("Viewing Tasks ...");
+                    System.out.println("Task management selected.");
                     break;
+
                 case 3:
+                    System.out.println("Status reports selected.");
+                    break;
+
+                case 4:
+                    System.out.println("User switching selected.");
+                    break;
+
+                case 5:
                     running = false;
                     System.out.println("Goodbye!");
                     break;
 
                 default:
-                    System.out.println("Invalid option.");
+                    System.out.println("Invalid option. Please choose 1-5.");
             }
         }
         scanner.close();
@@ -114,6 +140,59 @@ public class Main {
                 );
 
                 System.out.println("----------------------------------------------");
+            }
+        }
+    }
+
+    public static void filterProjects(Project[] projects, Scanner scanner) {
+
+        System.out.println("\n========== PROJECT FILTER ==========");
+        System.out.println("1. View All Projects");
+        System.out.println("2. Software Projects Only");
+        System.out.println("3. Hardware Projects Only");
+        System.out.println("4. Search by Budget Range");
+        System.out.print("Choose filter: ");
+
+        int choice;
+
+        if (scanner.hasNextInt()) {
+            choice = scanner.nextInt();
+            scanner.nextLine();
+        } else {
+            System.out.println("Invalid input.");
+            scanner.nextLine();
+            return;
+        }
+
+        for (Project project : projects) {
+
+            if (project == null) {
+                continue;
+            }
+
+            boolean show = false;
+
+            if (choice == 1) {
+                show = true;
+
+            } else if (choice == 2 && project instanceof SoftwareProject) {
+                show = true;
+
+            } else if (choice == 3 && project instanceof HardwareProject) {
+                show = true;
+            }
+
+            if (show) {
+                System.out.printf(
+                        "%d | %s | %s | Team: %d | Budget: $%.2f%n",
+                        project.getId(),
+                        project.getName(),
+                        project instanceof SoftwareProject
+                                ? "Software"
+                                : "Hardware",
+                        project.getTeamSize(),
+                        project.getBudget()
+                );
             }
         }
     }
