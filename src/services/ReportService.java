@@ -1,81 +1,85 @@
 package services;
 
 import models.Project;
-import models.Task;
+import models.StatusReport;
+import utils.ConsoleMenu;
 
 public class ReportService {
-    private Project[] projects;
 
-    public ReportService(Project[] projects) {
-        this.projects = projects;
+    private final ProjectService projectService;
+
+    public ReportService(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
+    public StatusReport[] generateReports() {
+        Project[] projects = projectService.getProjects();
+        StatusReport[] reports = new StatusReport[projects.length];
+
+        for (int i = 0; i < projects.length; i++) {
+            reports[i] = new StatusReport(projects[i]);
+        }
+        return reports;
     }
 
     public void displayProjectReport() {
+        StatusReport[] reports = generateReports();
 
-        System.out.println("\n==============================================");
-        System.out.println("           PROJECT STATUS REPORT");
-        System.out.println("==============================================");
+        ConsoleMenu.printHeader("PROJECT STATUS REPORT");
 
-        System.out.printf(
-                "%-5s %-20s %-7s %-10s %-12s%n",
-                "ID",
-                "PROJECT NAME",
-                "TASKS",
-                "COMPLETED",
-                "PROGRESS"
-        );
-
-        System.out.println("----------------------------------------------");
-
-        double totalCompletion = 0;
-        int projectCount = 0;
-
-        for (Project project : projects) {
-
-            if (project == null) {
-                continue;
-            }
-
-            int totalTasks = 0;
-            int completedTasks = 0;
-
-            for (Task task : project.getTasks()) {
-
-                if (task != null) {
-
-                    totalTasks++;
-
-                    if (task.isCompleted()) {
-                        completedTasks++;
-                    }
-                }
-            }
-
-            double percentage =
-                    project.getCompletionPercentage();
-
-            System.out.printf(
-                    "%-5d %-20s %-7d %-10d %.2f%%%n",
-                    project.getId(),
-                    project.getName(),
-                    totalTasks,
-                    completedTasks,
-                    percentage
-            );
-
-            totalCompletion += percentage;
-            projectCount++;
+        if (reports.length == 0) {
+            System.out.println("No projects found.");
+            return;
         }
 
-        double average = projectCount == 0
-                ? 0
-                : totalCompletion / projectCount;
-
-        System.out.println("----------------------------------------------");
-
+        System.out.println(ConsoleMenu.LINE);
         System.out.printf(
-                "AVERAGE COMPLETION: %.2f%%%n",
-                average
+                "%-10s | %-19s | %-5s | %-9s | %s%n",
+                "PROJECT ID", "PROJECT NAME", "TASKS", "COMPLETED", "PROGRESS (%)"
         );
+        System.out.println(ConsoleMenu.LINE);
+
+        double totalPercentage = 0;
+        int total = 0;
+        int completed = 0;
+        int inProgress = 0;
+        int pending = 0;
+
+        for (StatusReport report : reports) {
+            System.out.printf(
+                    "%-10s | %-19s | %s | %s | %s%n",
+                    report.getProjectId(),
+                    report.getProjectName(),
+                    center(String.valueOf(report.getTotalTasks()), 5),
+                    center(String.valueOf(report.getCompletedTasks()), 9),
+                    String.format("%.2f%%", report.getPercentage())
+            );
+
+            totalPercentage += report.getPercentage();
+            total += report.getTotalTasks();
+            completed += report.getCompletedTasks();
+            inProgress += report.getInProgressTasks();
+            pending += report.getPendingTasks();
+        }
+
+        System.out.println(ConsoleMenu.LINE);
+        System.out.printf("AVERAGE COMPLETION: %.2f%%%n", totalPercentage / reports.length);
+        System.out.println(ConsoleMenu.LINE);
+
+        System.out.println("\nTask Statistics:");
+        System.out.println("Total: " + total);
+        System.out.println("Completed: " + completed);
+        System.out.println("In Progress: " + inProgress);
+        System.out.println("Pending: " + pending);
+
+        System.out.println("\nSummary:");
+        for (StatusReport report : reports) {
+            System.out.println(report.getSummary());
+        }
+    }
+
+    private String center(String text, int width) {
+        int left = (width - text.length()) / 2;
+        return " ".repeat(left) + text + " ".repeat(width - text.length() - left);
     }
 }

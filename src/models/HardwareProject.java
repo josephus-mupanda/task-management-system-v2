@@ -1,13 +1,25 @@
 package models;
 
 public class HardwareProject extends Project {
-     public HardwareProject(int id, String name, String description, double budget, int teamSize){
-         super(id, name, description, budget, teamSize);
-     }
 
-     @Override
-    public String getProjectDetails(){
-         return "Hardware Project: " + getName()
-                 + " | Budget: " + getBudget();
-     }
+    private String deviceType;
+
+    public HardwareProject(String name, String description, double budget, int teamSize, String deviceType) {
+        super(name, description, budget, teamSize);
+        this.deviceType = deviceType;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    @Override
+    public String getType() {
+        return "Hardware";
+    }
+
+    @Override
+    public String getProjectDetails() {
+        return "Device Type: " + deviceType;
+    }
 }

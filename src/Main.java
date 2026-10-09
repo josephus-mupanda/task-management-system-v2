@@ -1,4 +1,10 @@
-import models.*;
+import models.AdminUser;
+import models.HardwareProject;
+import models.Project;
+import models.RegularUser;
+import models.SoftwareProject;
+import models.Task;
+import models.User;
 import services.ProjectService;
 import services.ReportService;
 import services.TaskService;
@@ -10,56 +16,38 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Project[] projects = new Project[10];
+        ProjectService projectService = new ProjectService();
+        TaskService taskService = new TaskService();
+        ReportService reportService = new ReportService(projectService);
 
-        projects[0] = new SoftwareProject(
-                1,
-                "Alpha Tracker",
-                "Task tracking application",
-                15000,
-                5
-        );
+        User alice = new AdminUser("Alice Johnson", "alice@example.com");
+        User bob = new RegularUser("Bob Smith", "bob@example.com");
 
-        projects[1] = new HardwareProject(
-                2,
-                "IoT Sensor Kit",
-                "Sensor prototype for smart devices",
-                10000,
-                3
-        );
+        Project alpha = new SoftwareProject(
+                "Alpha Tracker", "Task tracking app for startups", 15000, 5, "Java");
+        Project sensorKit = new HardwareProject(
+                "IoT Sensor Kit", "Sensor prototype for smart devices", 10000, 3, "Sensor board");
+        Project smartHouse = new SoftwareProject(
+                "Smart House System", "Home automation management system", 50000, 5, "Java and MQTT");
+        Project gateway = new HardwareProject(
+                "Security Gateway", "IoT security device", 30000, 4, "Network gateway");
+        Project inventory = new SoftwareProject(
+                "Inventory Manager", "Inventory management application", 20000, 4, "Java");
 
-        projects[2] = new SoftwareProject(
-                3,
-                "Smart House System",
-                "Home automation management system",
-                50000,
-                5
-        );
+        projectService.addProject(alpha);
+        projectService.addProject(sensorKit);
+        projectService.addProject(smartHouse);
+        projectService.addProject(gateway);
+        projectService.addProject(inventory);
 
-        projects[3] = new HardwareProject(
-                4,
-                "Security Gateway",
-                "IoT security device",
-                30000,
-                4
-        );
+        taskService.addTask(alpha, "Design Database", Task.Status.COMPLETED);
+        taskService.addTask(alpha, "Implement API", Task.Status.IN_PROGRESS);
+        taskService.addTask(alpha, "Write Unit Tests", Task.Status.PENDING);
+        taskService.addTask(sensorKit, "Build Prototype", Task.Status.COMPLETED);
+        taskService.addTask(sensorKit, "Calibrate Sensors", Task.Status.PENDING);
 
-        projects[4] = new SoftwareProject(
-                5,
-                "Inventory Manager",
-                "Inventory management application",
-                20000,
-                4
-        );
-
-        ProjectService projectService =
-                new ProjectService(projects);
-
-        TaskService taskService =
-                new TaskService();
-
-        ReportService reportService =
-                new ReportService(projects);
+        alpha.addMember(bob);
+        taskService.assignTask(alpha, alpha.getTasks()[1].getId(), bob);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -67,7 +55,8 @@ public class Main {
                 scanner,
                 projectService,
                 taskService,
-                reportService
+                reportService,
+                new User[]{alice, bob}
         );
 
         menu.start();

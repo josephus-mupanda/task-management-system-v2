@@ -1,14 +1,25 @@
 package models;
 
-public class SoftwareProject  extends Project {
+public class SoftwareProject extends Project {
 
-    public SoftwareProject(int id, String name, String description,double budget, int teamSize){
-        super(id, name, description, budget, teamSize);
+    private String techStack;
+
+    public SoftwareProject(String name, String description, double budget, int teamSize, String techStack) {
+        super(name, description, budget, teamSize);
+        this.techStack = techStack;
+    }
+
+    public String getTechStack() {
+        return techStack;
     }
 
     @Override
-    public String getProjectDetails(){
-        return "Software Project: " + getName()
-                + " | Budget: " + getBudget();
+    public String getType() {
+        return "Software";
+    }
+
+    @Override
+    public String getProjectDetails() {
+        return "Tech Stack: " + techStack;
     }
 }
