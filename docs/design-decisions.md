@@ -155,7 +155,7 @@ Users are kept by `ConsoleMenu` itself, because the lab structure has no separat
 
 ```mermaid
 flowchart LR
-    A["Each Project"] --> B["StatusReport<br/>a snapshot of the numbers"]
+    A["Each Project"] --> B["StatusReport - a snapshot of the numbers"]
     B --> C["Report table"]
     B --> D["Summary sentence"]
     B --> E["Totals and average"]

@@ -42,11 +42,11 @@ The code is split in layers. Each layer only talks to the one below it.
 
 ```mermaid
 flowchart TD
-    A["Main<br/>creates the objects and loads sample data"] --> B["ConsoleMenu<br/>screens and navigation"]
-    B --> C["ValidationUtils<br/>reads and checks every input"]
-    B --> D["Services<br/>ProjectService, TaskService, ReportService"]
-    D --> E["Models<br/>Project, Task, User, StatusReport"]
-    E --> F[("Arrays in memory")]
+    A["Main - creates the objects and loads sample data"] --> B["ConsoleMenu - screens and navigation"]
+    B --> C["ValidationUtils - reads and checks every input"]
+    B --> D["Services - ProjectService, TaskService, ReportService"]
+    D --> E["Models - Project, Task, User, StatusReport"]
+    E --> F["Arrays in memory"]
 ```
 
 | Layer | What it does |
@@ -73,7 +73,7 @@ flowchart TD
     P --> P2["Add New Project"]
     P1 --> F["Filter: all, software, hardware, budget range"]
     F --> D["Enter a project ID to open its details"]
-    D --> DO["Add, update, remove or assign tasks<br/>Add a user to the project"]
+    D --> DO["Add, update, remove or assign tasks - Add a user to the project"]
 
     T --> T1["Add New Task"]
     T --> T2["View Tasks by Project"]
