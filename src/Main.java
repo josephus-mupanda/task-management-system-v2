@@ -20,8 +20,8 @@ public class Main {
         TaskService taskService = new TaskService();
         ReportService reportService = new ReportService(projectService);
 
-        User alice = new AdminUser("Alice Johnson", "alice@example.com");
-        User bob = new RegularUser("Bob Smith", "bob@example.com");
+        User alice = new AdminUser("Admin", "admin@gmail.com");
+        User bob = new RegularUser("Josephus Mupanda", "josephus@gmail.com");
 
         Project alpha = new SoftwareProject(
                 "Alpha Tracker", "Task tracking app for startups", 15000, 5, "Java");
