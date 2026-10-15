@@ -21,7 +21,7 @@ public class Main {
         ReportService reportService = new ReportService(projectService);
 
         User alice = new AdminUser("Admin", "admin@gmail.com");
-        User bob = new RegularUser("Josephus Mupanda", "josephus@gmail.com");
+        User bob = new RegularUser("Josephus Mupanda", "josephusmupanda@gmail.com");
 
         Project alpha = new SoftwareProject(
                 "Alpha Tracker", "Task tracking app for startups", 15000, 5, "Java");
